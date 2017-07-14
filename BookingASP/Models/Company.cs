@@ -34,8 +34,10 @@ namespace BookingASP.Models
         public string Description { get; set; }
         public byte[] Logo { get; set; }
 
-       
+        public virtual ICollection<Service> Services { get; set; }
 
+
+#region ImageFunc
         public byte[] imageToByteArray(System.Drawing.Image imageIn)
         {
             if(imageIn == null)
@@ -54,11 +56,14 @@ namespace BookingASP.Models
             Image returnImage = Image.FromStream(ms);
             return returnImage;
         }
+        #endregion
     }
 
     public class CompanyDBContext : DbContext
     {
         public DbSet<Company> Companies { get; set; }
+        public DbSet<Company> Services { get; set; }
+        public DbSet<Company> Bookings { get; set; }
     }
 
 

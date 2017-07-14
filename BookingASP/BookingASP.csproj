@@ -163,7 +163,12 @@
     <Compile Include="Migrations\201707131425554_PasswordLimit.Designer.cs">
       <DependentUpon>201707131425554_PasswordLimit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707140724053_CompleteDatabase.cs" />
+    <Compile Include="Migrations\201707140724053_CompleteDatabase.Designer.cs">
+      <DependentUpon>201707140724053_CompleteDatabase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -242,6 +247,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707131425554_PasswordLimit.resx">
       <DependentUpon>201707131425554_PasswordLimit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707140724053_CompleteDatabase.resx">
+      <DependentUpon>201707140724053_CompleteDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
