@@ -24,7 +24,7 @@ namespace BookingASP.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(18, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [MinLength(6, ErrorMessage ="The password must be at least 6 characters long!")]
         //[RegularExpression(@"^ ((?=.*[a - z])(?=.*[A - Z])(?=.*\d)).+$")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -38,6 +38,9 @@ namespace BookingASP.Models
 
         public byte[] imageToByteArray(System.Drawing.Image imageIn)
         {
+            if(imageIn == null)
+                return new byte[0];
+
             MemoryStream ms = new MemoryStream();
             imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
             return ms.ToArray();
@@ -45,6 +48,8 @@ namespace BookingASP.Models
 
         public Image byteArrayToImage(byte[] byteArrayIn)
         {
+            if (byteArrayIn == null)
+                return new Bitmap(20,20);
             MemoryStream ms = new MemoryStream(byteArrayIn);
             Image returnImage = Image.FromStream(ms);
             return returnImage;

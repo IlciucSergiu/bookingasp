@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 
 
-namespace BookingASP.ViewModel
+namespace BookingASP.ViewModels
 {
     public class CompanyViewModel
     {
@@ -22,7 +22,7 @@ namespace BookingASP.ViewModel
         public string Email { get; set; }
 
         [Required]
-        [StringLength(18, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [MinLength(6, ErrorMessage = "The password must be at least 6 characters long!")]
         //[RegularExpression(@"^ ((?=.*[a - z])(?=.*[A - Z])(?=.*\d)).+$")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
