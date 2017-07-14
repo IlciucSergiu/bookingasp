@@ -5,8 +5,7 @@ using System.Web;
 using System.IO;
 using System.Drawing;
 using System.ComponentModel.DataAnnotations;
-
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingASP.ViewModels
 {
@@ -21,6 +20,7 @@ namespace BookingASP.ViewModels
         [Required]
         [StringLength(50)]
         [DataType(DataType.EmailAddress)]
+        [Index(IsUnique = true)]
         public string Email { get; set; }
 
         [Required]

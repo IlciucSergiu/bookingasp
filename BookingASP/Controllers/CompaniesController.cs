@@ -56,13 +56,21 @@ namespace BookingASP.Controllers
             {
                 Company company = new Company();
 
+                if (!company.UniqueEmail(companyVM.Email))
+                {
+                    ViewBag.Verify = "This email already exists!";
+                    
+                    return View(companyVM);
+                }
                 company.Name = companyVM.Name;
                 company.Email = companyVM.Email;
                 company.Password = BCrypt.Net.BCrypt.HashPassword(companyVM.Password);
 
+                
+
                 db.Companies.Add(company);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Login");
             }
 
             return View(companyVM);
@@ -194,6 +202,12 @@ namespace BookingASP.Controllers
 
             if (ModelState.IsValid)
             {
+                if(!db.Companies.Any(m => m.Email == companyVM.Email))
+                {
+                    ViewBag.Verify = "Wrong email or password!";
+                    return View(companyVM);
+                }
+
                 Company company = db.Companies.First(m => m.Email == companyVM.Email);
                 if (BCrypt.Net.BCrypt.Verify(companyVM.Password, company.Password))
                 {
