@@ -62,8 +62,8 @@ namespace BookingASP.Models
     public class CompanyDBContext : DbContext
     {
         public DbSet<Company> Companies { get; set; }
-        public DbSet<Company> Services { get; set; }
-        public DbSet<Company> Bookings { get; set; }
+        public DbSet<Service> Services { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
     }
 
 

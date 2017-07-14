@@ -21,6 +21,7 @@ namespace BookingASP.Controllers
         public ActionResult Index()
         {
             return View(db.Companies.ToList());
+            
         }
 
         // GET: Companies/Details/5
@@ -90,7 +91,7 @@ namespace BookingASP.Controllers
             }
             return View(companyProfile);
         }
-
+        #region FileUpload
         [Route("FileUpload")]
         [HttpPost]
         public ActionResult FileUpload(HttpPostedFileBase file)
@@ -124,7 +125,7 @@ namespace BookingASP.Controllers
             // after successfully uploading redirect the user
             return RedirectToAction("Edit", new { id = ID });
         }
-
+        #endregion 
         // POST: Companies/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -179,6 +180,35 @@ namespace BookingASP.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login([Bind(Include = "Email,Password")] CompanyLoginViewModel companyVM)
+        {
+
+            if (ModelState.IsValid)
+            {
+                Company company = db.Companies.First(m => m.Email == companyVM.Email);
+                if (BCrypt.Net.BCrypt.Verify(companyVM.Password, company.Password))
+                {
+                    Session["User"] = companyVM.Email;
+
+                    return RedirectToAction("Index", "Services");
+
+                }
+                else
+                {
+                    ViewBag.Verify = "Wrong email or password!";
+                    return View(companyVM);
+                }
+            }
+            return View(companyVM);
         }
     }
 }

@@ -1,23 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.IO;
-using System.Drawing;
-using System.ComponentModel.DataAnnotations;
-
-
 
 namespace BookingASP.ViewModels
 {
-    public class CompanyViewModel
+    public class CompanyLoginViewModel
     {
-        //public int ID { get; set; }
-
-        [Required]
-        public string Name { get; set; }
-
-
         [Required]
         [StringLength(50)]
         [DataType(DataType.EmailAddress)]
