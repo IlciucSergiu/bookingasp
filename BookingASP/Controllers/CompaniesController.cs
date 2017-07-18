@@ -42,6 +42,7 @@ namespace BookingASP.Controllers
         // GET: Companies/Create
         public ActionResult Create()
         {
+            Session["User"] = "ilciuc_sergiu@yahoo.com";
             return View();
         }
 

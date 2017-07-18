@@ -143,25 +143,28 @@ namespace BookingASP.Controllers
         public string AddBooking(CreateBookingViewModel bookingVM)
         {
 
-            try { 
-            if (ModelState.IsValid)
-            {
-                var config = new MapperConfiguration(cfg =>
+            try {
+                if (ModelState.IsValid)
                 {
-                    cfg.CreateMap<CreateBookingViewModel, Booking>();
-                });
+                    var config = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<CreateBookingViewModel, Booking>();
+                    });
 
-                IMapper mapper = config.CreateMapper();
-                Booking booking = mapper.Map<CreateBookingViewModel, Booking>(bookingVM);
+                    IMapper mapper = config.CreateMapper();
+                    Booking booking = mapper.Map<CreateBookingViewModel, Booking>(bookingVM);
 
-                    booking.ServiceID = bookingVM.ServiceID;
-                db.Bookings.Add(booking);
-                db.SaveChanges();
+                    //booking.ServiceID = ViewBag.ServiceID;
+                    db.Bookings.Add(booking);
+                    db.SaveChanges();
+
+                    return "Success";
+                }
+                else return "Invalid data";
+
                
             }
-                return "Success";
-            }
-            catch { return "Fail"; }
+            catch(Exception e) { return e.Message; }
         }
 
         protected override void Dispose(bool disposing)
@@ -173,21 +176,7 @@ namespace BookingASP.Controllers
             base.Dispose(disposing);
         }
 
-        public string BookService(int? id)
-        {
-            if (id == null)
-            {
-                // return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                return "<p>No service</p>";
-            }
-            Service service = db.Services.Find(id);
-            if (service == null)
-            {
-                // return HttpNotFound();
-                return "<p>No service</p>";
-            }
-            return "<p>You are making a booking for "+id+"</p>";
-        }
+        
 
     }
 }

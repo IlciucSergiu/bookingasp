@@ -6,9 +6,8 @@
 
 <h2>Create</h2>
 
-@*@Html.Hidden("AntiForgeryToken", Html.AntiForgeryToken())*@
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CreateBookingForm" })) 
 {
     @Html.AntiForgeryToken()
     
@@ -62,7 +61,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input value="Create" class="btn btn-default" onclick="ShowFormThree();" />
+                <input value="Create" class="btn btn-default" onclick="AddBooking();" />
                 <img src="https://media.giphy.com/media/jAYUbVXgESSti/giphy-downsized.gif" id="LoadingGif" style="display:none"/>
             </div>
         </div>
@@ -75,28 +74,27 @@
 }
 
 <script type="text/javascript">
-    //$(function () {
-    //    $('').click(function () {
-    //        var url = $(this).attr('href');
-    //        //dataType: 'JSONP';
-    //        var dialog = $('<div style="display:none"></div>').appendTo('body');
-    //        dialog.load(url, {},
-    //            function (responseText, textStatus, XMLHttpRequest) {
-    //                dialog.dialog({
-    //                    close: function (event, ui) {
-    //                        dialog.remove();
-    //                    }
-    //                });
-    //            });
-    //        return false;
-    //    });
-    //});
+
+    
 
     function ShowFormTwo() {
+
+        var form = $('#CreateBookingForm');
+        $.validator.unobtrusive.parse(form);
+        form.validate();
+
+        if (form.valid()) {
+    
+        
+
         $("div.AddBookingOne").css("display", "none");
         $("div.AddBookingTwo").css("display", "block");
         $("div.AddBookingThree").css("display", "none");
+        }
     }
+    
+
+    
 
     function ShowFormThree() {
         $("div.AddBookingOne").css("display", "none");
@@ -105,11 +103,9 @@
     }
 
     function AddBooking() {
-
-       
-
+        
         $("#LoadingGif").css("display", "block");
-
+        //alert($("#ServiceID").val() +"adding");
         
         $.ajax(
             {
@@ -130,7 +126,7 @@
                     alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
                 },
                 success: function (result) {
-                    //alert("We returned: " + result);
+                    alert("We returned: " + result);
                     ShowFormThree();
                 }
 

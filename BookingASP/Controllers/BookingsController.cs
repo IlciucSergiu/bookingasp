@@ -15,11 +15,24 @@ namespace BookingASP.Controllers
         private CompanyDBContext db = new CompanyDBContext();
 
         // GET: Bookings
-        public ActionResult Index()
+        public ActionResult Index(int? serviceId)
         {
+            string userEmail = Session["User"].ToString();
+            int CompanyID = db.Companies.Where(a => a.Email == userEmail).First().ID;
             var bookings = db.Bookings.Include(b => b.Service);
+            // bookings = bookings.Include(a => a.Service.Company);
+             bookings = bookings.Where(a => a.Service.CompanyID == CompanyID);
+
+            ViewBag.Services = new SelectList(db.Services.Where(d => d.CompanyID == CompanyID), "ID", "Title");
+
+            if (serviceId != null)
+                bookings = bookings.Where(a => a.ServiceID == serviceId);
+
             return View(bookings.ToList());
         }
+
+        
+        
 
         // GET: Bookings/Details/5
         public ActionResult Details(int? id)

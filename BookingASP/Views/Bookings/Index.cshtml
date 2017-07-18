@@ -9,6 +9,16 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+<div class="form-group">
+   
+    <div class="col-md-10">
+        
+           @foreach (BookingASP.Models.Service service in ViewBag.Services)
+           { <a href="/Bookings?serviceId=@service.ID">@service.Title</a>}
+       
+    </div>
+</div>
 <table class="table">
     <tr>
         <th>

@@ -4,7 +4,9 @@
     ViewBag.Title = "Index";
 }
 
-@Html.Hidden("ServiceID",Model.First().ID)
+@if (Model.Count() > 0) { 
+@Html.Hidden("ServiceID", Model.FirstOrDefault().ID)
+}
 
 <h2>Index</h2>
 
@@ -39,7 +41,7 @@
         </th>
         <th></th>
     </tr>
-@if(Model!=null)
+@if (Model != null)
 {
     foreach (var item in Model) {
     <tr>
@@ -68,89 +70,48 @@
             @Html.DisplayFor(modelItem => item.Availability)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-            <input type="button" id="BookButton" value="Make a booking." onclick="BookModelPopUp();" />
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            <input type="button" class="BookButton" value="Make a booking." onclick="BookModelPopUp(@item.ID); " />
         </td>
     </tr>
-}}
+    } }
 
 
 
 </table>
 
 
-@*<dialog id="myDialog">
-    <div class="form-horizontal">
-        <h4>Booking</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-               @Html.TextBox("Name", null, new { @class = "form-control" })  
-               
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBox("Email", null, new { @class = "form-control" })  
-               
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Phone", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBox("Phone", null, new { @class = "form-control" })  
-                
-            </div>
-        </div>
-
-        
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-    <button id="hide">Close</button>
-  
-</dialog>
-<button id="show">Show Dialog</button>*@
 
 <dialog id="myDialog">
-    @Html.Partial("CreateBooking",new BookingASP.ViewModels.CreateBookingViewModel())
+    @Html.Partial("CreateBooking", new BookingASP.ViewModels.CreateBookingViewModel())
     
 
 </dialog>
-<button id="show">Show Dialog</button>
+
 
 
 <script type="text/javascript">
-        var dialog = document.getElementById('myDialog');
-        document.getElementById('show').onclick = function () { dialog.showModal(); };
-        document.getElementById('hide').onclick = function () { dialog.close(); };
 
-        BookModelPopUp = function () {
-              dialog.showModal('/Services/BookService', "WindowPopup", 'width=400px,height=400px');
+
+
+    $(function () {
+
+         BookModelPopUp = function (id) {
+              $("#ServiceID").val(id);
+              var dialog = document.getElementById('myDialog');
+                dialog.showModal();
+                $('#hide').click(function () { dialog.close(); });
         }
 
+    });
 
     </script>
 
 
 
 @Html.AntiForgeryToken()
-
-@Html.ActionLink("Create", "Create", "Bookings", new { id = Model.First().ID },
-                                         new { @class = "dialog" })
-
-
 
 
 
