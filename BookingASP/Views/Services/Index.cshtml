@@ -4,6 +4,8 @@
     ViewBag.Title = "Index";
 }
 
+@Html.Hidden("ServiceID",Model.First().ID)
+
 <h2>Index</h2>
 
 <p>
@@ -69,8 +71,104 @@
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            <input type="button" id="BookButton" value="Make a booking." onclick="BookModelPopUp();" />
         </td>
     </tr>
 }}
 
+
+
 </table>
+
+
+@*<dialog id="myDialog">
+    <div class="form-horizontal">
+        <h4>Booking</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @Html.TextBox("Name", null, new { @class = "form-control" })  
+               
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Email", null, new { @class = "form-control" })  
+               
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Phone", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Phone", null, new { @class = "form-control" })  
+                
+            </div>
+        </div>
+
+        
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    <button id="hide">Close</button>
+  
+</dialog>
+<button id="show">Show Dialog</button>*@
+
+<dialog id="myDialog">
+    @Html.Partial("CreateBooking",new BookingASP.ViewModels.CreateBookingViewModel())
+    
+
+</dialog>
+<button id="show">Show Dialog</button>
+
+
+<script type="text/javascript">
+        var dialog = document.getElementById('myDialog');
+        document.getElementById('show').onclick = function () { dialog.showModal(); };
+        document.getElementById('hide').onclick = function () { dialog.close(); };
+
+        BookModelPopUp = function () {
+              dialog.showModal('/Services/BookService', "WindowPopup", 'width=400px,height=400px');
+        }
+
+
+    </script>
+
+
+
+@Html.AntiForgeryToken()
+
+@Html.ActionLink("Create", "Create", "Bookings", new { id = Model.First().ID },
+                                         new { @class = "dialog" })
+
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $('a.dialog').click(function () {
+            var url = $(this).attr('href');
+            //dataType: 'JSONP';
+            var dialog = $('<div style="display:none"></div>').appendTo('body');
+            dialog.load(url, {},
+                function (responseText, textStatus, XMLHttpRequest) {
+                    dialog.dialog({
+                        close: function (event, ui) {
+                            dialog.remove();
+                        }
+                    });
+                });
+            return false;
+        });
+    });
+</script>

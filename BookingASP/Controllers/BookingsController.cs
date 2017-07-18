@@ -37,10 +37,12 @@ namespace BookingASP.Controllers
         }
 
         // GET: Bookings/Create
-        public ActionResult Create()
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(int? id)
         {
-            ViewBag.ServiceID = new SelectList(db.Services, "ID", "Title");
-            return View();
+            //ViewBag.ServiceID = new SelectList(db.Services, "ID", "Title");
+            //return View();
+            return HttpNotFound();
         }
 
         // POST: Bookings/Create
