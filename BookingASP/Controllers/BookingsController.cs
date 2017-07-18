@@ -15,6 +15,7 @@ namespace BookingASP.Controllers
         private CompanyDBContext db = new CompanyDBContext();
 
         // GET: Bookings
+        
         public ActionResult Index(int? serviceId)
         {
             string userEmail = Session["User"].ToString();
@@ -23,7 +24,15 @@ namespace BookingASP.Controllers
             // bookings = bookings.Include(a => a.Service.Company);
              bookings = bookings.Where(a => a.Service.CompanyID == CompanyID);
 
-            ViewBag.Services = new SelectList(db.Services.Where(d => d.CompanyID == CompanyID), "ID", "Title");
+            var serviceList = new List<Service>();
+
+            serviceList = db.Services.ToList();
+           
+            //ViewBag.Services = db.Services.Where(d => d.CompanyID == CompanyID).ToList();
+            foreach (var item in bookings)
+            {
+                ViewBag.ServiceID = new SelectList(serviceList, "ID", "Title", item.ServiceID);
+            }
 
             if (serviceId != null)
                 bookings = bookings.Where(a => a.ServiceID == serviceId);

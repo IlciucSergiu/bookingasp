@@ -11,12 +11,13 @@
 </p>
 
 <div class="form-group">
-   
+
     <div class="col-md-10">
-        
-           @foreach (BookingASP.Models.Service service in ViewBag.Services)
-           { <a href="/Bookings?serviceId=@service.ID">@service.Title</a>}
-       
+       @*@Html.DropDownList("ServiceID", new SelectList((BookingASP.Models..Models.Service), htmlAttributes: new { @class = "form-control" })*@
+        @*@foreach (BookingASP.Models.Service service in ViewBag.Services)
+
+            { <a href="/Bookings?serviceId=@service.ID">@service.Title</a>}*@
+
     </div>
 </div>
 <table class="table">
@@ -39,29 +40,30 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Service.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BookingTime)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Service.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookingTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>

@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using BookingASP.Models;
 using BookingASP.ViewModels;
 using AutoMapper;
+using System.Net.Mail;
 
 namespace BookingASP.Controllers
 {
@@ -20,7 +21,7 @@ namespace BookingASP.Controllers
         public ActionResult Index()
         {
             string userEmail = Session["User"].ToString();
-           // Company company = db.Companies.Where(x => x.Email == userEmail).FirstOrDefault();
+            // Company company = db.Companies.Where(x => x.Email == userEmail).FirstOrDefault();
 
             var services = db.Services.Where(m => m.CompanyID == db.Companies.Where(x => x.Email == userEmail).FirstOrDefault().ID);
             return View(services.ToList());
@@ -143,28 +144,42 @@ namespace BookingASP.Controllers
         public string AddBooking(CreateBookingViewModel bookingVM)
         {
 
-            try {
-                if (ModelState.IsValid)
+            //try {
+            if (ModelState.IsValid)
+            {
+                var config = new MapperConfiguration(cfg =>
                 {
-                    var config = new MapperConfiguration(cfg =>
-                    {
-                        cfg.CreateMap<CreateBookingViewModel, Booking>();
-                    });
+                    cfg.CreateMap<CreateBookingViewModel, Booking>();
+                });
 
-                    IMapper mapper = config.CreateMapper();
-                    Booking booking = mapper.Map<CreateBookingViewModel, Booking>(bookingVM);
+                IMapper mapper = config.CreateMapper();
+                Booking booking = mapper.Map<CreateBookingViewModel, Booking>(bookingVM);
 
-                    //booking.ServiceID = ViewBag.ServiceID;
-                    db.Bookings.Add(booking);
-                    db.SaveChanges();
+                //booking.ServiceID = ViewBag.ServiceID;
+                db.Bookings.Add(booking);
+                db.SaveChanges();
 
-                    return "Success";
-                }
-                else return "Invalid data";
 
-               
+                MailMessage mail = new MailMessage("eu_sergiuu14@yahoo.com", booking.Email);
+                SmtpClient client = new SmtpClient();
+                client.EnableSsl = true;
+                client.Port = 25;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential("ilciuc.sergiu@gmail.com", "getodaci1");
+                client.Host = "smtp.gmail.com";
+                mail.Subject = "Service booking";
+                mail.Body = "Your booking has been saved. Time"+booking.BookingTime;
+                client.Send(mail);
+
+
+                return "Success";
             }
-            catch(Exception e) { return e.Message; }
+            else return "Invalid data";
+
+
+            //}
+            //catch(Exception e) { return e.Message; }
         }
 
         protected override void Dispose(bool disposing)
@@ -176,7 +191,7 @@ namespace BookingASP.Controllers
             base.Dispose(disposing);
         }
 
-        
+
 
     }
 }

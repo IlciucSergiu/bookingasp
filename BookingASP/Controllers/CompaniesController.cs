@@ -106,10 +106,7 @@ namespace BookingASP.Controllers
         public ActionResult FileUpload(HttpPostedFileBase file)
         {
             int ID = 1;
-            if (ID == null)
-            {
-                return View("About", "Home");
-            }
+            
             if (file != null)
             {
                 //string pic = System.IO.Path.GetFileName(file.FileName);
