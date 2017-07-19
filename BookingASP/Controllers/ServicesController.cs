@@ -20,10 +20,10 @@ namespace BookingASP.Controllers
         // GET: Services
         public ActionResult Index()
         {
-            string userEmail = Session["User"].ToString();
+            string userID = Session["User"].ToString();
             // Company company = db.Companies.Where(x => x.Email == userEmail).FirstOrDefault();
-
-            var services = db.Services.Where(m => m.CompanyID == db.Companies.Where(x => x.Email == userEmail).FirstOrDefault().ID);
+            int companyId = Convert.ToInt32(userID);
+            var services = db.Services.Where(m => m.CompanyID == companyId);
             return View(services.ToList());
         }
 
@@ -68,8 +68,8 @@ namespace BookingASP.Controllers
                 IMapper mapper = config.CreateMapper();
                 Service service = mapper.Map<ServiceViewModel, Service>(serviceVM);
 
-                string userEmail = Session["User"].ToString();
-                service.CompanyID = db.Companies.Where(m => m.Email == userEmail).First().ID;
+                string userId = Session["User"].ToString();
+                service.CompanyID = Convert.ToInt32(userId);
 
                 db.Services.Add(service);
                 db.SaveChanges();

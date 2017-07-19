@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutCompany.cshtml";
 }
 
 @if (Model.Count() > 0) { 
@@ -44,8 +43,7 @@
     </tr>
 @if (Model != null)
 {
-    foreach (var item in Model)
-    {
+    foreach (var item in Model) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Company.Name)
@@ -75,13 +73,63 @@
             @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
             @Html.ActionLink("Details", "Details", new { id = item.ID }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-          
+            <input type="button" class="BookButton" value="Make a booking." onclick="BookModelPopUp(@item.ID); " />
         </td>
     </tr>
-    }
-}
+    } }
+
+
+
 </table>
 
 
 
+<dialog id="myDialog">
+    @Html.Partial("CreateBooking", new BookingASP.ViewModels.CreateBookingViewModel())
+    
 
+</dialog>
+
+
+
+<script type="text/javascript">
+
+
+
+    $(function () {
+
+         BookModelPopUp = function (id) {
+              $("#ServiceID").val(id);
+              var dialog = document.getElementById('myDialog');
+                dialog.showModal();
+                $('#hide').click(function () { dialog.close(); });
+        }
+
+    });
+
+    </script>
+
+
+
+@Html.AntiForgeryToken()
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $('a.dialog').click(function () {
+            var url = $(this).attr('href');
+            //dataType: 'JSONP';
+            var dialog = $('<div style="display:none"></div>').appendTo('body');
+            dialog.load(url, {},
+                function (responseText, textStatus, XMLHttpRequest) {
+                    dialog.dialog({
+                        close: function (event, ui) {
+                            dialog.remove();
+                        }
+                    });
+                });
+            return false;
+        });
+    });
+</script>

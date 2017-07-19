@@ -42,7 +42,7 @@ namespace BookingASP.Controllers
         // GET: Companies/Create
         public ActionResult Create()
         {
-            Session["User"] = "ilciuc_sergiu@yahoo.com";
+            Session["User"] = "1";
             return View();
         }
 
@@ -209,7 +209,7 @@ namespace BookingASP.Controllers
                 Company company = db.Companies.First(m => m.Email == companyVM.Email);
                 if (BCrypt.Net.BCrypt.Verify(companyVM.Password, company.Password))
                 {
-                    Session["User"] = companyVM.Email;
+                    Session["User"] = company.ID;
 
                     return RedirectToAction("Index", "Services");
 

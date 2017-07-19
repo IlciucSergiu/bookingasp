@@ -1,0 +1,139 @@
+﻿@model BookingASP.ViewModels.CreateBookingViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CreateBookingForm" })) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal AddBookingOne">
+        <h4>Booking</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+     
+
+        <div class="form-group">
+            
+            <div class="col-md-offset-2 col-md-10">
+                <input  value="Next" class="btn btn-default" onclick="ShowFormTwo();"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="AddBookingTwo" style="display:none">
+        <div class="form-group">
+            @Html.LabelFor(model => model.BookingTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BookingTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BookingTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input value="Create" class="btn btn-default" onclick="AddBooking();" />
+                <img src="https://media.giphy.com/media/jAYUbVXgESSti/giphy-downsized.gif" id="LoadingGif" style="display:none"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="AddBookingThree" style="display:none">
+        <p>A message was sent!</p>
+        <input type="submit" value="Close" id="hide" class="btn btn-default" />
+    </div>
+}
+
+<script type="text/javascript">
+
+    
+
+    function ShowFormTwo() {
+
+        var form = $('#CreateBookingForm');
+        $.validator.unobtrusive.parse(form);
+        form.validate();
+
+        if (form.valid()) {
+    
+        
+
+        $("div.AddBookingOne").css("display", "none");
+        $("div.AddBookingTwo").css("display", "block");
+        $("div.AddBookingThree").css("display", "none");
+        }
+    }
+    
+
+    
+
+    function ShowFormThree() {
+        $("div.AddBookingOne").css("display", "none");
+        $("div.AddBookingTwo").css("display", "none");
+        $("div.AddBookingThree").css("display", "Block");
+    }
+
+    function AddBooking() {
+        
+        $("#LoadingGif").css("display", "block");
+        //alert($("#ServiceID").val() +"adding");
+        
+        $.ajax(
+            {
+                type: "POST", //HTTP POST Method
+                url: '@Url.Action("AddBooking", "Services")',
+                //url: "Services/AddBooking", // Controller/View
+                data: { //Passing data
+                    Name: $("#Name").val(), //Reading text box values using Jquery
+                    Email: $("#Email").val(),
+                    Phone: $("#Phone").val(),
+                    BookingTime: $("#BookingTime").val(),
+                    ServiceId: $("#ServiceID").val(),
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                  //contentType: 'application/json; charset=utf-8',
+                //dataType: 'json',
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
+                },
+                success: function (result) {
+                    alert("We returned: " + result);
+                    ShowFormThree();
+                }
+
+            });
+
+
+    }
+
+</script>
+

@@ -2,21 +2,34 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCompany.cshtml";
 }
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 
 <div class="form-group">
 
     <div class="col-md-10">
-       @*@Html.DropDownList("ServiceID", new SelectList((BookingASP.Models..Models.Service), htmlAttributes: new { @class = "form-control" })*@
-        @*@foreach (BookingASP.Models.Service service in ViewBag.Services)
+        @*@Html.DropDownList("ServiceID", new SelectList((BookingASP.Models.Models.Service), htmlAttributes: new { @class = "form-control" })*@
+        @if (ViewBag.Services != null)
+        {
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                    Service name
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  
+                   @foreach (BookingASP.Models.Service service in ViewBag.Services)
 
-            { <a href="/Bookings?serviceId=@service.ID">@service.Title</a>}*@
+                    {
+                    <li><a href="/Bookings?serviceId=@service.ID">@service.Title</a></li>
+                    }
+
+                </ul>
+            </div>
+        }
 
     </div>
 </div>
@@ -58,11 +71,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.BookingTime)
             </td>
-            <td>
+            @*<td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.ID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-            </td>
+            </td>*@
         </tr>
     }
 

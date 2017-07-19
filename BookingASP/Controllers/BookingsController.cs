@@ -18,21 +18,22 @@ namespace BookingASP.Controllers
         
         public ActionResult Index(int? serviceId)
         {
-            string userEmail = Session["User"].ToString();
-            int CompanyID = db.Companies.Where(a => a.Email == userEmail).First().ID;
+            string userId = Session["User"].ToString();
+            int CompanyID = Convert.ToInt32(userId);
             var bookings = db.Bookings.Include(b => b.Service);
-            // bookings = bookings.Include(a => a.Service.Company);
+            
              bookings = bookings.Where(a => a.Service.CompanyID == CompanyID);
 
             var serviceList = new List<Service>();
 
-            serviceList = db.Services.ToList();
-           
-            //ViewBag.Services = db.Services.Where(d => d.CompanyID == CompanyID).ToList();
-            foreach (var item in bookings)
-            {
-                ViewBag.ServiceID = new SelectList(serviceList, "ID", "Title", item.ServiceID);
-            }
+            serviceList = db.Services.Where(m=>m.CompanyID == CompanyID).ToList();
+
+            ViewBag.Services = serviceList;
+
+            //foreach (var item in bookings)
+            //{
+            //    ViewBag.ServiceID = new SelectList(serviceList, "ID", "Title", item.ServiceID);
+            //}
 
             if (serviceId != null)
                 bookings = bookings.Where(a => a.ServiceID == serviceId);

@@ -31,7 +31,13 @@
         </div>
 
         <div class="form-group">
-            @if(ViewBag.Verify != null) { @Html.Label("Wrong email or password!", htmlAttributes: new { @class = "col-md-offset-2 text-danger" }); }
+            @if (ViewBag.Verify != null)
+            { @Html.Label("Wrong email or password!", htmlAttributes: new { @class = "col-md-offset-2 text-danger" });
+            }
+        </div>
+
+        <div class="form-group">
+            @Html.ActionLink("Create new company", "Create", "Companies", htmlAttributes: new { @class = "col-md-offset-2 control-label col-md-2" })
         </div>
 
         <div class="form-group">
