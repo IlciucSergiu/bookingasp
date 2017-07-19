@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using BookingASP.Models;
 using BookingASP.ViewModels;
 using System.Drawing;
-
+using System.Net.Mail;
 
 namespace BookingASP.Controllers
 {
@@ -21,7 +21,7 @@ namespace BookingASP.Controllers
         public ActionResult Index()
         {
             return View(db.Companies.ToList());
-            
+
         }
 
         // GET: Companies/Details/5
@@ -60,14 +60,14 @@ namespace BookingASP.Controllers
                 if (!company.UniqueEmail(companyVM.Email))
                 {
                     ViewBag.Verify = "This email already exists!";
-                    
+
                     return View(companyVM);
                 }
                 company.Name = companyVM.Name;
                 company.Email = companyVM.Email;
                 company.Password = BCrypt.Net.BCrypt.HashPassword(companyVM.Password);
 
-                
+
 
                 db.Companies.Add(company);
                 db.SaveChanges();
@@ -106,12 +106,12 @@ namespace BookingASP.Controllers
         public ActionResult FileUpload(HttpPostedFileBase file)
         {
             int ID = 1;
-            
+
             if (file != null)
             {
                 //string pic = System.IO.Path.GetFileName(file.FileName);
 
-                Image pic = Image.FromStream(file.InputStream,true,true);
+                Image pic = Image.FromStream(file.InputStream, true, true);
 
                 Company company = db.Companies.Find(ID);
 
@@ -148,7 +148,7 @@ namespace BookingASP.Controllers
                 //company.Logo = company.imageToByteArray(companyProfile.Logo);
                 db.Entry(company).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(companyProfile);
             }
             return View(companyProfile);
         }
@@ -200,7 +200,7 @@ namespace BookingASP.Controllers
 
             if (ModelState.IsValid)
             {
-                if(!db.Companies.Any(m => m.Email == companyVM.Email))
+                if (!db.Companies.Any(m => m.Email == companyVM.Email))
                 {
                     ViewBag.Verify = "Wrong email or password!";
                     return View(companyVM);
@@ -221,6 +221,60 @@ namespace BookingASP.Controllers
                 }
             }
             return View(companyVM);
+        }
+
+        public ActionResult SignOut()
+        {
+            Session["User"] = null;
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult Recover()
+        {
+            
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Recover(RecoverEmailViewModel recover)
+        {
+            if (recover.Email == null)
+                return View();
+
+            var company = db.Companies.Where(m => m.Email == recover.Email).FirstOrDefault();
+            if (company == null)
+                return View();
+
+            //string password = RandomString(10);
+            string password = "oparola";
+            company.Password = BCrypt.Net.BCrypt.HashPassword(password);
+
+            db.Entry(company).State = EntityState.Modified;
+            db.SaveChanges();
+
+            MailMessage mail = new MailMessage("eu_sergiuu14@yahoo.com", recover.Email);
+            SmtpClient client = new SmtpClient();
+            client.EnableSsl = true;
+            client.Port = 25;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential("ilciuc.sergiu@gmail.com", "getodaci1");
+            client.Host = "smtp.gmail.com";
+            mail.Subject = "BookingApp recover";
+            mail.Body = "Your new password is: "+password;
+            client.Send(mail);
+
+            ViewBag.Success = "The email was sent, check your email.";
+
+            return View();
+        }
+
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

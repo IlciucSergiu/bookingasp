@@ -32,6 +32,6 @@ namespace BookingASP.Models
         public virtual Company Company { get; set; }
         public virtual ICollection<Booking> Bookings { get; set; }
 
-        public IEnumerable<Service> Services { get; set; }
+       
     }
 }

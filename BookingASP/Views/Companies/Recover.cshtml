@@ -1,0 +1,30 @@
+﻿@model BookingASP.ViewModels.RecoverEmailViewModel
+@{
+    ViewBag.Title = "Recover";
+}
+
+<h2>Recover</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Write your email to recover the password.", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                <input type="submit" value="Send" class="btn btn-success" />
+
+
+                @if (ViewBag.Success != null)
+                {
+                    <p class="text-success lead">The email was sent, check your email.</p>
+                }
+            </div>
+
+        </div>
+    </div>
+
+        
+
+}
+

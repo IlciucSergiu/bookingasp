@@ -185,6 +185,7 @@
     <Compile Include="ViewModels\CompanyProfileViewModel.cs" />
     <Compile Include="ViewModels\CompanyViewModel.cs" />
     <Compile Include="ViewModels\CreateBookingViewModel.cs" />
+    <Compile Include="ViewModels\RecoverEmailViewModel.cs" />
     <Compile Include="ViewModels\ServiceViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +293,7 @@
     <Content Include="Views\Home\CreateBooking.cshtml" />
     <Content Include="Views\Services\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutCompany.cshtml" />
+    <Content Include="Views\Companies\Recover.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

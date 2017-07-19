@@ -20,6 +20,9 @@ namespace BookingASP.Controllers
         // GET: Services
         public ActionResult Index()
         {
+            if (Session["User"] == null)
+                return View("Error");
+
             string userID = Session["User"].ToString();
             // Company company = db.Companies.Where(x => x.Email == userEmail).FirstOrDefault();
             int companyId = Convert.ToInt32(userID);
