@@ -10,6 +10,7 @@ using BookingASP.Models;
 using BookingASP.ViewModels;
 using System.Drawing;
 using System.Net.Mail;
+using System.IO;
 
 namespace BookingASP.Controllers
 {
@@ -95,43 +96,12 @@ namespace BookingASP.Controllers
             {
                 companyProfile.CompanyName = company.CompanyName;
                 companyProfile.Description = company.Description;
-                companyProfile.Logo = company.byteArrayToImage(company.Logo);
+                companyProfile.Logo = company.Logo;
                 ViewBag.ProfileImage = companyProfile.Logo;
             }
             return View(companyProfile);
         }
-        #region FileUpload
-        [Route("FileUpload")]
-        [HttpPost]
-        public ActionResult FileUpload(HttpPostedFileBase file)
-        {
-            int ID = 1;
-
-            if (file != null)
-            {
-                //string pic = System.IO.Path.GetFileName(file.FileName);
-
-                Image pic = Image.FromStream(file.InputStream, true, true);
-
-                Company company = db.Companies.Find(ID);
-
-                if (company == null)
-                {
-                    return HttpNotFound();
-                }
-                else
-                {
-                    company.Logo = company.imageToByteArray(pic);
-
-                    db.Entry(company).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-
-            }
-            // after successfully uploading redirect the user
-            return RedirectToAction("Edit", new { id = ID });
-        }
-        #endregion 
+       
         // POST: Companies/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -153,6 +123,44 @@ namespace BookingASP.Controllers
             return View(companyProfile);
         }
 
+        #region FileUpload
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult FileUpload(HttpPostedFileBase file)
+        {
+            int ID = 1;
+
+            if (file != null)
+            {
+                //string pic = System.IO.Path.GetFileName(file.FileName);
+
+                Image pic = Image.FromStream(file.InputStream, true, true);
+                int companyID = Convert.ToInt32(Session["User"].ToString());
+                Company company = db.Companies.Find(companyID);
+
+               
+                if (company == null)
+                {
+                    return HttpNotFound();
+                }
+                else
+                {
+                    string fileName = "Logo_" + companyID + ".jpg";
+                    var path = Path.Combine(Server.MapPath("~/Content/Images"), fileName );
+                    file.SaveAs(path);
+                    company.Logo = fileName;
+                    
+
+                    db.Entry(company).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+            }
+            // after successfully uploading redirect the user
+            return RedirectToAction("Edit", new { id = ID });
+        }
+        #endregion 
         // GET: Companies/Delete/5
         public ActionResult Delete(int? id)
         {

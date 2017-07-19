@@ -176,6 +176,10 @@
     <Compile Include="Migrations\201707141407243_UniqueEmail.Designer.cs">
       <DependentUpon>201707141407243_UniqueEmail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707191428161_LogoPath.cs" />
+    <Compile Include="Migrations\201707191428161_LogoPath.Designer.cs">
+      <DependentUpon>201707191428161_LogoPath.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\Company.cs" />
@@ -297,6 +301,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -322,6 +327,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707141407243_UniqueEmail.resx">
       <DependentUpon>201707141407243_UniqueEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707191428161_LogoPath.resx">
+      <DependentUpon>201707191428161_LogoPath.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
