@@ -4,6 +4,12 @@
     ViewBag.Title = "Create";
 }
 
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+@*<link rel="stylesheet" href="/resources/demos/style.css">*@
+
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+
 <h2>Create</h2>
 
 
@@ -11,7 +17,7 @@
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal AddBookingOne">
+    <div class="form-horizontal AddBookingOne addBooking">
         <h4>Booking</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -49,14 +55,16 @@
         </div>
     </div>
 
-    <div class="AddBookingTwo" style="display:none">
-        <div class="form-group">
-            @Html.LabelFor(model => model.BookingTime, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="AddBookingTwo addBooking" style="display:none">
+         <div class="form-group">
+            <h4>Write booking time (dd/mm/yyyy hh/mm)</h4>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BookingTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BookingTime, "", new { @class = "text-danger" })
-            </div>
+                 @Html.EditorFor(model => model.BookingTime, new { htmlAttributes = new { @class = "form-control" } })
+                 @Html.ValidationMessageFor(model => model.BookingTime, "", new { @class = "text-danger" })
+             </div>
+
         </div>
+       
 
 
         <div class="form-group">
@@ -67,8 +75,9 @@
         </div>
     </div>
 
-    <div class="AddBookingThree" style="display:none">
+    <div class="AddBookingThree addBooking" style="display:none">
         <p>A message was sent!</p>
+        <img src="https://cdn0.iconfinder.com/data/icons/thin-communication-messaging/57/thin-012_mail_envelope_email_sent-512.png" class="emailSent"/>
         <input type="submit" value="Close" id="hide" class="btn btn-default" />
     </div>
 }
@@ -126,7 +135,7 @@
                     alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
                 },
                 success: function (result) {
-                    alert("We returned: " + result);
+                   // alert("We returned: " + result);
                     ShowFormThree();
                 }
 

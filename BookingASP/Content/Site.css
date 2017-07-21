@@ -1,6 +1,9 @@
-﻿body {
+﻿
+    
+    body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #fcfcfc;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -21,4 +24,179 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.imageLogo {
+    width: 200px;
+    height: 200px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+#uploadLogo{
+
+    text-decoration:none;
+    cursor:pointer;
+    color:dimgrey;
+    font-size:medium;
+    margin-left: 3.5em;
+}
+
+#uploadInfo {
+    text-decoration: none;
+    
+    color: dimgrey;
+    font-size: small;
+    margin-left: 3.5em;
+}
+
+.profileButtons{
+    margin-left:4em;
+    margin-top:2em;
+    padding-top:2em;
+}
+
+.profileContainer{
+    width:60%;
+    margin-top: 2em;
+}
+
+.table {
+    margin-top:30px;
+}
+
+.servicesContainer {
+    margin-top: 2em;
+    width: 55%;
+    box-shadow: 5px 5px 5px 5px #888888;
+    background-color: #ffffff;
+}
+
+
+
+.BookButton {
+    color: white;
+    background-color: #ca7de6;
+    margin-left:10px;
+    margin-bottom:-5px;
+}
+
+.row-sevice-name {
+    color: #cf8ee8;
+    font-size:large;
+    font-weight:700;
+}
+
+.row-description {
+    height: 7em;
+    color: #acacac;
+    padding-top:5px;
+}
+
+.row-info {
+    color: #666666;
+    font-size: 15px;
+}
+
+.servicesContainer span {
+    font-size: smaller;
+    display: block;
+    color: #acacac;
+}
+
+.navbar-custom {
+    background-color: #7b90e0;
+    border-color: #7b90e0;
+    color: white !important;
+}
+
+    .navbar-custom a {
+        color: white !important;
+    }
+
+
+    /*companies datalist start*/
+
+.companiesContainer {
+    margin-top: 2em;
+    width: 55%;
+    box-shadow: 5px 5px 5px 5px #888888;
+    background-color: #ffffff;
+}
+
+
+
+.servicesButton {
+    color: white;
+    background-color: #ca7de6;
+    margin-left: 10px;
+    margin-bottom: -5px;
+}
+
+.row-company-name {
+    color: #cf8ee8;
+    font-size: large;
+    font-weight: 700;
+}
+
+.row-description {
+    height: 7em;
+    color: #acacac;
+    padding-top: 5px;
+}
+
+.row-info {
+    color: #666666;
+    font-size: 15px;
+}
+
+.companiesContainer span {
+    font-size: smaller;
+    display: block;
+    /*color: #acacac;*/
+    color:aqua;
+}
+
+/*companies datalist end*/
+
+.companyContainer {
+    margin-top: 2em;
+    width: 55%;
+   
+}
+
+
+
+
+
+.row-company-description {
+    height: 7em;
+    color: #acacac;
+    padding-top: 5px;
+}
+
+.row-company-info {
+    color: #666666;
+    font-size: 17px;
+    font-family:sans-serif;
+}
+
+#myDialog {
+    z-index: 100 !important;
+    min-width: 500px;
+    min-height: 300px;
+}
+
+#datepicker {
+    z-index: 200 !important;
+}
+
+#LoadingGif {
+    max-width:100px;
+   
+}
+
+.emailSent {
+    height:250px;
 }

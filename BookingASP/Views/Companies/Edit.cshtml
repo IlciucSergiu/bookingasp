@@ -1,77 +1,97 @@
 ﻿@model BookingASP.ViewModels.CompanyProfileViewModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Profile";
     Layout = "~/Views/Shared/_LayoutCompany.cshtml";
 
 }
 
-<h2>Edit</h2>
+
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Company</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
 
-        
+    <div class="container profileContainer">
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                    <div class="col-md-10">
+                        @if (Model.Logo != null)
+                        {
+                            var source = "../../Content/Images/" + Model.Logo;
+                            <img id="imageLogo" class="imageLogo img-circle" src=@source alt="Image" />
+                        }
+
+                        <br /><br />
+                        <input type="file" name="file" id="file" style="width: 100%;display:none" onchange="UploadImage()" />
+                        <a id="uploadLogo">Upload logo</a><br />
+                        <span id="uploadInfo">(max 140 X 140 px)</span>
+                    </div>
+                </div>
+
+
             </div>
-        </div>
+            <div class="col-xs-6">
+                <form>
 
-        @if(Model.Description != null) { 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        }
-        <div class="form-group">
-           
-            
-            <div class="col-md-10">
-                @if (Model.Logo != null) {
-                <img src="../../Content/Images/model.Logo" alt="Image" /> 
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.ID)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label " })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = 5 } )
+                           
+                            @if (Model.Description != null)
+                            {
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            }
+                        </div>
+                    </div>
+
+                </form>
+                <br />
+                <div class="profileButtons">
                     
-                         @*< img src = @string.Format("http://myurltest.com/{0}/go/5/true", model.Logo) />*@
-                }
+                        <input type="submit" value="Sign out" class="btn btn-default  " onclick="location.href='@Url.Action("SignOut", "Companies")';return false;" />
+                        <input type="submit" value="Save" class="btn btn-success" />
+                  
+                </div>
             </div>
-           
-                <label for="file">Upload Image:</label>
-                <input type="file" name="file" id="file" style="width: 100%;" />
-                <input type="button" value="Upload" onclick="UploadImage()" />
+
             
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-
-                <input type="submit" value="Sign out" class="btn btn-default " onclick="location.href='@Url.Action("SignOut", "Companies")';return false;" />
-                <input type="submit" value="Save" class="btn btn-success" />
-            </div>
         </div>
-        
     </div>
+
+
+
 }
 
 <script>
+
+    $("#uploadLogo").click(function () {
+        $("#file").click();
+        });
+
      function UploadImage() {
 
          var data = new FormData();
          var files = $("#file").get(0).files;
-         alert(files.toString());
+         //alert(files.toString());
          if (files.length > 0) { data.append("file", files[0]); }
          else {
              common.showNotification('warning', 'Please select file to upload.', 'top', 'right');
@@ -83,19 +103,27 @@
              return false;
          }
          data.append("__RequestVerificationToken", $('input[name="__RequestVerificationToken"]').val());
+
          $.ajax({
              url: '@Url.Action("FileUpload", "Companies")',
              type: "POST",
              processData: false,
              data: data,
-             dataType: 'json',
+             //dataType: 'json',
              contentType: false,
              success: function (response) {
-                 if (response != null || response != '')
-                     alert(response);
+
+                 //if (response != null || response != '')
+                    // alert(response);
+
+
+                 $("#imageLogo").attr("src", "../../Content/Images/" + response + "?" + new Date().getTime());
+
                  $("#file").val('');
              },
-             error: function (er) { }
+             error: function (XMLHttpRequest, textStatus, errorThrown) {
+                 alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
+             }
 
          });
          return false;
@@ -130,8 +158,8 @@
 </script>
 
 @*<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>*@
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

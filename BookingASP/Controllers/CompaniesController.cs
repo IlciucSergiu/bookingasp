@@ -96,7 +96,12 @@ namespace BookingASP.Controllers
             {
                 companyProfile.CompanyName = company.CompanyName;
                 companyProfile.Description = company.Description;
-                companyProfile.Logo = company.Logo;
+
+                if (company.Logo == null || company.Logo == "")
+                    companyProfile.Logo = "LogoPlaceholder.jpg";
+                else
+                    companyProfile.Logo = company.Logo;
+
                 ViewBag.ProfileImage = companyProfile.Logo;
             }
             return View(companyProfile);
@@ -127,9 +132,11 @@ namespace BookingASP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult FileUpload(HttpPostedFileBase file)
+        public string FileUpload(HttpPostedFileBase file)
         {
-            int ID = 1;
+            
+
+            string fileName = "";
 
             if (file != null)
             {
@@ -139,14 +146,15 @@ namespace BookingASP.Controllers
                 int companyID = Convert.ToInt32(Session["User"].ToString());
                 Company company = db.Companies.Find(companyID);
 
-               
+                
+
                 if (company == null)
                 {
-                    return HttpNotFound();
+                    return "Company not found";
                 }
                 else
                 {
-                    string fileName = "Logo_" + companyID + ".jpg";
+                    fileName = "Logo_" + companyID + ".jpg";
                     var path = Path.Combine(Server.MapPath("~/Content/Images"), fileName );
                     file.SaveAs(path);
                     company.Logo = fileName;
@@ -158,7 +166,7 @@ namespace BookingASP.Controllers
 
             }
             // after successfully uploading redirect the user
-            return RedirectToAction("Edit", new { id = ID });
+            return fileName;
         }
         #endregion 
         // GET: Companies/Delete/5

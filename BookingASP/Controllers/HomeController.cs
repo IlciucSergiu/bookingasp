@@ -20,6 +20,15 @@ namespace BookingASP.Controllers
 
         public ActionResult Services(int id)
         {
+            Company company = db.Companies.Find(id);
+
+            if (company.Logo == "" || company.Logo == null)
+                ViewBag.Logo = "LogoPlaceholder.jpg";
+            else
+            ViewBag.Logo = company.Logo;
+
+            ViewBag.CompanyName = company.Name;
+            ViewBag.Description = company.Description;
 
             return View(db.Services.Where(m=>m.CompanyID == id));
 
