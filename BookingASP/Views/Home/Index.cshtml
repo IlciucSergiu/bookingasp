@@ -9,14 +9,14 @@
 {
 <div class="container companiesContainer">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             @if (item.Logo != null)
             {
                 var source = "../../Content/Images/" + (string)item.Logo;
-                <img id="imageLogo" class="imageLogo img-circle" src=@source alt="Image" />
+                <img id="imageLogo" class="imageLogo img-circle companiesLogo" src=@source alt="Image" />
             }
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <div class="row  row-companies-name">
                 <label>@item.CompanyName</label>
 
@@ -25,7 +25,7 @@
                 <label>@item.Description</label>
 
             </div>
-            <div class="row">
+            <div class="row row-services">
                 @Html.ActionLink("Services", "Services", new { id = item.ID })
             </div>
             

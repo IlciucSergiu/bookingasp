@@ -35,17 +35,17 @@
             { @Html.Label("Wrong email or password!", htmlAttributes: new { @class = "col-md-offset-2 text-danger" });
             }
         </div>
-
-        <div class="form-group">
-            @Html.ActionLink("Create new company", "Create", "Companies", htmlAttributes: new { @class = "col-md-offset-2 control-label col-md-2" })
-        </div>
-        <div class="form-group">
-            @Html.ActionLink("Recover password", "Recover", "Companies", htmlAttributes: new { @class = "col-md-offset-2 control-label col-md-2" })
-        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Login" class="btn btn-default" />
+                <input type="submit" value="Login" class="btn btn-success buttonLogin" />
             </div>
         </div>
+        
+            @Html.ActionLink("Create new company", "Create", "Companies", htmlAttributes: new { @class = "col-md-offset-2" })|
+        
+        
+            @Html.ActionLink("Recover password", "Recover", "Companies", htmlAttributes: new { @class = "" })
+        
+       
     </div>
 }

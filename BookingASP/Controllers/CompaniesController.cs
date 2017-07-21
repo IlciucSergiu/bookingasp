@@ -120,7 +120,12 @@ namespace BookingASP.Controllers
                 //company.ID = companyProfile.ID;
                 company.CompanyName = companyProfile.CompanyName;
                 company.Description = companyProfile.Description;
-                //company.Logo = company.imageToByteArray(companyProfile.Logo);
+
+                if (company.Logo == null || company.Logo == "")
+                    companyProfile.Logo = "LogoPlaceholder.jpg";
+                else
+                    companyProfile.Logo = company.Logo;
+
                 db.Entry(company).State = EntityState.Modified;
                 db.SaveChanges();
                 return View(companyProfile);

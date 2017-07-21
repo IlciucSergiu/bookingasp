@@ -12,7 +12,7 @@
         @*@Html.DropDownList("ServiceID", new SelectList((BookingASP.Models.Models.Service), htmlAttributes: new { @class = "form-control" })*@
         @if (ViewBag.Services != null)
         {
-            <div class="dropdown">
+            <div class="dropdown servicesDropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                     Service name
                     <span class="caret"></span>
