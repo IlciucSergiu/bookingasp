@@ -163,13 +163,13 @@ namespace BookingASP.Controllers
                 db.SaveChanges();
 
 
-                MailMessage mail = new MailMessage("eu_sergiuu14@yahoo.com", booking.Email);
+                MailMessage mail = new MailMessage("", booking.Email);
                 SmtpClient client = new SmtpClient();
                 client.EnableSsl = true;
                 client.Port = 25;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("ilciuc.sergiu@gmail.com", "getodaci1");
+                client.Credentials = new NetworkCredential("", "");
                 client.Host = "smtp.gmail.com";
                 mail.Subject = "Service booking";
                 mail.Body = "Your booking has been saved. Time"+booking.BookingTime;

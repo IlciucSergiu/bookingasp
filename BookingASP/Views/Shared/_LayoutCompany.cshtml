@@ -30,7 +30,7 @@
             </div>
             <div class="navbar-collapse collapse navbar-right">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Dashboard", "Index", "Services")</li>
+                    <li id="Dashboard">@Html.ActionLink("Dashboard", "Index", "Services")</li>
                     <li>@Html.ActionLink("Bookings", "Index", "Bookings")</li>
                     <li>@Html.ActionLink("Profile", "Edit", "Companies" ,new { id = Session["User"].ToString() }, null)</li>
                 </ul>
